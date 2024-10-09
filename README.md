@@ -47,3 +47,11 @@ Run this from the folder you want to upload from. You can choose individual file
 ```bash
 huggingface-cli upload --create-pr meta-llama/Llama-Guard-3-11B-Vision .
 ```
+
+## Download stuff locally
+
+```bash
+huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-3B-Instruct --local-dir-use-symlinks False
+```
+
+P.S. for large repos - make sure to setup `hf_transfer` -> `pip install hf_transfer`
