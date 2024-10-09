@@ -55,3 +55,15 @@ huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-
 ```
 
 P.S. for large repos - make sure to setup `hf_transfer` -> `pip install hf_transfer`
+
+## Squash all commits into one
+
+```python
+from huggingface_hub import HfApi
+
+api = HfApi()
+
+repo_id = "some/repo"
+
+api.super_squash_history(repo_id=repo_id)
+```
