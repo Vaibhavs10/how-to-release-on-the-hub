@@ -40,3 +40,10 @@ for repo_name in ["lol/yolo"]:
                     create_pr=True)
 ```
 
+## Upload stuff to a repo
+
+Run this from the folder you want to upload from. You can choose individual files, or use the `.` wildcard to upload everything in the current folder.
+
+```bash
+huggingface-cli upload --create-pr meta-llama/Llama-Guard-3-11B-Vision .
+```
