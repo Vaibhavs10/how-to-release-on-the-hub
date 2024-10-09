@@ -27,3 +27,16 @@ def do_publish(source):
 for model_id in models:
     do_publish(model_id)
 ```
+
+## Update metadata
+
+```python
+from huggingface_hub import metadata_update
+
+for repo_name in ["lol/yolo"]:
+    metadata_update(repo_name, 
+                    {"library_name": "transformers"}, 
+                    overwrite=True,
+                    create_pr=True)
+```
+
