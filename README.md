@@ -67,3 +67,9 @@ repo_id = "some/repo"
 
 api.super_squash_history(repo_id=repo_id)
 ```
+
+## Verify Tokenizer
+
+In a almost all cases it is a good idea to verify both the slow as well as fast tokenizer after a model has been converted via official scripts.
+
+Refer to this notebook to test the same: https://github.com/Vaibhavs10/scratchpad/blob/main/tokenizer_check_minimal_example.ipynb
