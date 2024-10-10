@@ -1,5 +1,7 @@
 # How to release on the Hub
 
+This is a collections of snippets and scripts that come in handy for handling a release on the Hub. There is no order in these snippets, but they have come in clutch in pretty much all the releases.
+
 ## Move repos
 
 ```python
