@@ -70,6 +70,24 @@ repo_id = "some/repo"
 api.super_squash_history(repo_id=repo_id)
 ```
 
+## Get SHA of LFS files
+
+```python
+model_id = "some/model"
+files = api.model_info(model_id, files_metadata=True).siblings
+
+repo_name = model_id.split("/")[-1]
+to_block = []
+for f in files:
+    if f.rfilename.endswith(".pth") or f.rfilename.endswith(".safetensors"):
+        d = {
+            "oid": f.lfs.sha256,
+            "reasonForBlocking": f"Early release {repo_name}: {f.rfilename}"
+        }
+        to_block.append(d)
+print(json.dumps(to_block, indent=4))
+```
+
 ## Verify Tokenizer
 
 In a almost all cases it is a good idea to verify both the slow as well as fast tokenizer after a model has been converted via official scripts.
