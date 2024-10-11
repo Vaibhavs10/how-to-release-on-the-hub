@@ -30,6 +30,10 @@ for model_id in models:
     do_publish(model_id)
 ```
 
+## Enable gating programmatically
+
+Use [`update_repo_settings`](https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api#huggingface_hub.HfApi.update_repo_settings). (Sorry, I can't find my script now, but should be similar to the one about repo visibility above).
+
 ## Update metadata
 
 ```python
