@@ -70,6 +70,37 @@ repo_id = "some/repo"
 api.super_squash_history(repo_id=repo_id)
 ```
 
+## Batch updating model cards
+
+This is useful for releases with many checkpoints. The example below shows how to replace a link, but I've used the same process to programmatically create model cards from a template.
+
+```python
+from huggingface_hub import ModelCard
+
+# Get your model list somehow
+with open("models.txt") as f:
+    models = [m.strip() for m in f]
+
+# Open PRs in each repo for visibility
+prs = {}
+for model_id in models:
+    print(model_id)
+    card = ModelCard.load(model_id)
+    new_link = "https://replace.me"
+    card.text = card.text.replace("https://pre/release/link/to/be/replaced", new_link)
+    print(f"-- Pushing to {model_id}")
+    prs[model_id] = card.push_to_hub(model_id, create_pr=True, commit_message="Update card")
+
+
+# If you run this in a notebook or persist the prs to a file,
+# you can verify everything looks right and then merge
+
+from huggingface_hub import merge_pull_request
+for repo, commit in prs.items():
+    print(repo, commit.pr_num)
+    merge_pull_request(repo, commit.pr_num)
+```
+
 ## Verify Tokenizer
 
 In a almost all cases it is a good idea to verify both the slow as well as fast tokenizer after a model has been converted via official scripts.
