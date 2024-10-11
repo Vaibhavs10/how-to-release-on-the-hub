@@ -42,6 +42,11 @@ for repo_name in ["lol/yolo"]:
                     create_pr=True)
 ```
 
+Interesting metadata fields we frequently need:
+- For gated repos: `extra_gated_heading`, `extra_gated_prompt`, `extra_gated_button_content`
+- `license`
+- `library_name`, `pipeline_tag`, `tags`
+
 ## Upload stuff to a repo
 
 Run this from the folder you want to upload from. You can choose individual files, or use the `.` wildcard to upload everything in the current folder.
