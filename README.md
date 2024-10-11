@@ -58,6 +58,27 @@ huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-
 
 P.S. for large repos - make sure to setup `hf_transfer` -> `pip install hf_transfer`
 
+## Obtain IDs for gating
+
+TL;DR: `id=$(curl -s -H "Authorization: Bearer $TOKEN" "https://huggingface.co/api/models/repo/model" | jq ._id)`
+
+Example script for several models:
+
+```bash
+#!/bin/bash
+
+TOKEN=$(cat ~/.cache/huggingface/token)
+
+for x in 7b 13b 34b 70b
+do
+	for m in CodeLlama-${x}-hf CodeLlama-${x}-Python-hf CodeLlama-${x}-Instruct-hf
+	do
+		id=$(curl -s -H "Authorization: Bearer $TOKEN" "https://huggingface.co/api/models/meta-llama/${m}" | jq ._id)
+		echo "	new ObjectId($id), // \"meta-llama/${m}\""
+	done
+done
+```
+
 ## Squash all commits into one
 
 ```python
