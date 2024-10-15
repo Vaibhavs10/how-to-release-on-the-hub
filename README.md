@@ -147,6 +147,7 @@ for f in files:
         }
         to_block.append(d)
 print(json.dumps(to_block, indent=4))
+```
 
 ## Create a Collection
 
@@ -160,9 +161,10 @@ for model in model_ids:
     # Need fully qualified ids
     model = f"{org}/{model}"
     add_collection_item(item_id=model, item_type="model", collection_slug=collection.slug)    
+```
 
 ## Verify Tokenizer
 
-In a almost all cases it is a good idea to verify both the slow as well as fast tokenizer after a model has been converted via official scripts.
+In almost all cases, it is a good idea to verify both the slow and fast tokenizer after a model has been converted via official scripts.
 
 Refer to this notebook to test the same: https://github.com/Vaibhavs10/scratchpad/blob/main/tokenizer_check_minimal_example.ipynb
