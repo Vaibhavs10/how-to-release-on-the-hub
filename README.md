@@ -56,13 +56,13 @@ Interesting metadata fields we frequently need:
 Run this from the folder you want to upload from. You can choose individual files, or use the `.` wildcard to upload everything in the current folder.
 
 ```bash
-huggingface-cli upload --create-pr meta-llama/Llama-Guard-3-11B-Vision .
+huggingface-cli upload --private --create-pr meta-llama/Llama-Guard-3-11B-Vision .
 ```
 
 ## Download stuff locally
 
 ```bash
-huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-3B-Instruct --local-dir-use-symlinks False
+huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-3B-Instruct
 ```
 
 P.S. for large repos - make sure to setup `hf_transfer` -> `pip install hf_transfer`
