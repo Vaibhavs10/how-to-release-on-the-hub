@@ -70,6 +70,20 @@ repo_id = "some/repo"
 api.super_squash_history(repo_id=repo_id)
 ```
 
+## Create a Collection
+
+```python
+from huggingface_hub import create_collection, add_collection_item
+
+org = "someorg"
+collection = create_collection(namespace=org, title="Some Collection")
+
+for model in model_ids:
+    # Need fully qualified ids
+    model = f"{org}/{model}"
+    add_collection_item(item_id=model, item_type="model", collection_slug=collection.slug)    
+```
+
 ## Verify Tokenizer
 
 In a almost all cases it is a good idea to verify both the slow as well as fast tokenizer after a model has been converted via official scripts.
