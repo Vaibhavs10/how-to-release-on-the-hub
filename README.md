@@ -30,6 +30,10 @@ for model_id in models:
     do_publish(model_id)
 ```
 
+## Enable gating programmatically
+
+Use [`update_repo_settings`](https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api#huggingface_hub.HfApi.update_repo_settings). (Sorry, I can't find my script now, but should be similar to the one about repo visibility above).
+
 ## Update metadata
 
 ```python
@@ -41,6 +45,11 @@ for repo_name in ["lol/yolo"]:
                     overwrite=True,
                     create_pr=True)
 ```
+
+Interesting metadata fields we frequently need:
+- For gated repos: `extra_gated_heading`, `extra_gated_prompt`, `extra_gated_button_content`
+- `license`
+- `library_name`, `pipeline_tag`, `tags`
 
 ## Upload stuff to a repo
 
@@ -86,7 +95,19 @@ for f in files:
         }
         to_block.append(d)
 print(json.dumps(to_block, indent=4))
-```
+
+## Create a Collection
+
+```python
+from huggingface_hub import create_collection, add_collection_item
+
+org = "someorg"
+collection = create_collection(namespace=org, title="Some Collection")
+
+for model in model_ids:
+    # Need fully qualified ids
+    model = f"{org}/{model}"
+    add_collection_item(item_id=model, item_type="model", collection_slug=collection.slug)    
 
 ## Verify Tokenizer
 
