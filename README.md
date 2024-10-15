@@ -30,6 +30,10 @@ for model_id in models:
     do_publish(model_id)
 ```
 
+## Enable gating programmatically
+
+Use [`update_repo_settings`](https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api#huggingface_hub.HfApi.update_repo_settings). (Sorry, I can't find my script now, but should be similar to the one about repo visibility above).
+
 ## Update metadata
 
 ```python
@@ -42,21 +46,47 @@ for repo_name in ["lol/yolo"]:
                     create_pr=True)
 ```
 
+Interesting metadata fields we frequently need:
+- For gated repos: `extra_gated_heading`, `extra_gated_prompt`, `extra_gated_button_content`
+- `license`
+- `library_name`, `pipeline_tag`, `tags`
+
 ## Upload stuff to a repo
 
 Run this from the folder you want to upload from. You can choose individual files, or use the `.` wildcard to upload everything in the current folder.
 
 ```bash
-huggingface-cli upload --create-pr meta-llama/Llama-Guard-3-11B-Vision .
+huggingface-cli upload --private --create-pr meta-llama/Llama-Guard-3-11B-Vision .
 ```
 
 ## Download stuff locally
 
 ```bash
-huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-3B-Instruct --local-dir-use-symlinks False
+huggingface-cli download meta-llama/Llama-3.2-3B-Instruct --local-dir Llama-3.2-3B-Instruct
 ```
 
 P.S. for large repos - make sure to setup `hf_transfer` -> `pip install hf_transfer`
+
+## Obtain IDs for gating
+
+TL;DR: `id=$(curl -s -H "Authorization: Bearer $TOKEN" "https://huggingface.co/api/models/repo/model" | jq ._id)`
+
+Example script for several models:
+
+```bash
+#!/bin/bash
+
+TOKEN=$(cat ~/.cache/huggingface/token)
+
+for x in 7b 13b 34b 70b
+do
+	for m in CodeLlama-${x}-hf CodeLlama-${x}-Python-hf CodeLlama-${x}-Instruct-hf
+	do
+		id=$(curl -s -H "Authorization: Bearer $TOKEN" "https://huggingface.co/api/models/meta-llama/${m}" | jq ._id)
+		echo "	new ObjectId($id), // \"meta-llama/${m}\""
+	done
+done
+```
 
 ## Squash all commits into one
 
@@ -100,6 +130,36 @@ for repo, commit in prs.items():
     print(repo, commit.pr_num)
     merge_pull_request(repo, commit.pr_num)
 ```
+
+## Get SHA of LFS files
+
+```python
+model_id = "some/model"
+files = api.model_info(model_id, files_metadata=True).siblings
+
+repo_name = model_id.split("/")[-1]
+to_block = []
+for f in files:
+    if f.rfilename.endswith(".pth") or f.rfilename.endswith(".safetensors"):
+        d = {
+            "oid": f.lfs.sha256,
+            "reasonForBlocking": f"Early release {repo_name}: {f.rfilename}"
+        }
+        to_block.append(d)
+print(json.dumps(to_block, indent=4))
+
+## Create a Collection
+
+```python
+from huggingface_hub import create_collection, add_collection_item
+
+org = "someorg"
+collection = create_collection(namespace=org, title="Some Collection")
+
+for model in model_ids:
+    # Need fully qualified ids
+    model = f"{org}/{model}"
+    add_collection_item(item_id=model, item_type="model", collection_slug=collection.slug)    
 
 ## Verify Tokenizer
 
