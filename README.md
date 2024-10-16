@@ -168,3 +168,10 @@ for model in model_ids:
 In almost all cases, it is a good idea to verify both the slow and fast tokenizer after a model has been converted via official scripts.
 
 Refer to this notebook to test the same: https://github.com/Vaibhavs10/scratchpad/blob/main/tokenizer_check_minimal_example.ipynb
+
+## GGUF
+
+It is almost inevitible to quantise the model into the infamous GGUF format and share the checkpoints to hub. The easiest way to go about it is:
+1. Use the [GGUF My Repo](https://huggingface.co/spaces/ggml-org/gguf-my-repo) to quantise the model checkpoint and host it as a seperate and individual Hugging Face Repository.
+2. Once you have the repository ready, test the model with `llama-cli` or `llama-server`
+3. After you are happy with the results, move the repository into the respective organisation and make it public!
