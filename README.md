@@ -24,7 +24,7 @@ from huggingface_hub import update_repo_settings
 models = ["some/repo"]
 
 def do_publish(source):
-    update_repo_setting(source, private=False)
+    update_repo_settings(source, private=False)
 
 for model_id in models:
     do_publish(model_id)
