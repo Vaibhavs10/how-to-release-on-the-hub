@@ -19,7 +19,7 @@ for model in iter(models):
 ## Update repo visibility
 
 ```python
-from huggingface_hub import update_repo_setting
+from huggingface_hub import update_repo_settings
 
 models = ["some/repo"]
 
