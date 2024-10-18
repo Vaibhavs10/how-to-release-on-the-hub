@@ -19,12 +19,12 @@ for model in iter(models):
 ## Update repo visibility
 
 ```python
-from huggingface_hub import update_repo_visibility
+from huggingface_hub import update_repo_setting
 
 models = ["some/repo"]
 
 def do_publish(source):
-    update_repo_visibility(source, private=False)
+    update_repo_setting(source, private=False)
 
 for model_id in models:
     do_publish(model_id)
