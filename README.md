@@ -88,6 +88,22 @@ do
 done
 ```
 
+If you do not have `jq` here is the same code snippet but with `python` and the `json` packages
+```bash
+#!/bin/bash
+
+TOKEN=$(cat ~/.cache/huggingface/token)
+
+for x in 7b 13b 34b 70b
+do
+	for m in CodeLlama-${x}-hf CodeLlama-${x}-Python-hf CodeLlama-${x}-Instruct-hf
+	do
+		id=$(curl -s -H "Authorization: Bearer $TOKEN" "https://huggingface.co/api/models/meta-llama/${m}" | python3 -c "import sys, json; print(json.load(sys.stdin)['_id'])")
+		echo "	new ObjectId($id), // \"meta-llama/${m}\""
+	done
+done
+```
+
 ## Squash all commits into one
 
 ```python
